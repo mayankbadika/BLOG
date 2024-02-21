@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo # get the latest mongo db image
+    ports:
+      - "27017:27017"  # Expose MongoDB port
+    volumes:
+      - /Users/mayankbadika/Documents/Code/NodeJS/DB:/data/db
+
+  nodeapp:
+    build: . #builds a new image from the Dockerfile in the directory
+    ports:
+      - "3000:8000"
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/blogify  # Connection string to MongoDB
+    depends_on:
+      - mongodb
+    volumes:
+      - /Users/mayankbadika/Documents/Code/NodeJS/Blog/public:/home/app/public
+
+#Define a image property for services to use an existing image instead of createing a new one always

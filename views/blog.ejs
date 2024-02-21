@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs') %>
+    <title>Blog</title>
+</head>
+<body>
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="container mt-4">
+        <h1><%= blog.title %></h1>
+        <img src="<%= `/${blog.coverImageURl}` %>" width="700px"/>
+        <pre class="mt-4"><%= blog.body %></pre>
+    </div>
+
+    <div class="container mt-4">
+        <img src="<%= blog.createdBy.profileImageUrl %>" width="50px"/>
+        <h1><%= blog.createdBy.fullName %></h1>
+    </div>
+
+    <div class="container mt-4">
+        <h1>Comments (<%= comments.length %>)</h1>
+        <% if (locals.user) { %>
+            <form action='/blog/comment/<%= blog._id %>' method="post">
+                <div class="mb-3">
+                  <input type="text" class="form-control" id="content" name="content" aria-describedby="emailHelp">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Comment</button>
+            </form>
+        <% } %>
+        <div class="container mt-4"></div>
+            <% comments.forEach(comment => { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                    <div class="d-flex flex-start">
+                        <img class="rounded-circle shadow-1-strong me-3"
+                        src="<%= comment.createdBy.profileImageUrl %>" alt="avatar" width="40"
+                        height="40" />
+                        <div class="w-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="text-primary fw-bold mb-0">
+                                <%= comment.createdBy.fullName %>
+                            <span class="text-dark ms-2"><%= comment.content %></span>
+                            </h6>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            <% })%>
+        </div>
+    </div>
+    
+   <%- include('./partials/scripts.ejs') %>
+</body>
+</html>
